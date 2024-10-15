@@ -1,6 +1,8 @@
 import { useState } from "react";
 import "./Navbar.css"
 import { Link } from "react-router-dom";
+import { FaHeart } from "react-icons/fa6";
+import { IoIosHeartEmpty } from "react-icons/io";
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -40,7 +42,14 @@ const Navbar = () => {
             <Link className="nav-link" to="/">Home</Link>
           </li>
           <li>
-            <Link className="nav-link" to="/books">Books</Link>
+            <Link className="nav-link" to="/books">
+            <button className='wishlist-btn'> Wishlist Books
+            <IoIosHeartEmpty className="IoIosHeartEmpty"></IoIosHeartEmpty>
+              <div className='badge badge-secondary'>
+                  {/* +{cart?.length || 0} */}
+                </div>
+            </button>
+            </Link>
           </li>
         </ul>
 

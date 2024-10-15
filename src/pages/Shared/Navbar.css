@@ -41,7 +41,7 @@
 
 .navbar-links {
   display: flex;
-  gap: 40px;
+  gap: 34px;
   list-style-type: none;
   align-items: center;
 }
@@ -53,6 +53,45 @@
   transition: color 0.3s;
   font-size: 17px;
 }
+
+
+.wishlist-btn {
+  display: flex;    
+  gap: 2px;       
+  align-items: center;   
+  padding: 10px 15px;     
+  background-color: #475569;
+  color: white;             
+  border: none;         
+  border-radius: 24px;    
+  cursor: pointer;            
+  transition: background-color 0.3s;
+  font-weight: 600;
+  font-family: "Quicksand", sans-serif;
+}
+
+.wishlist-btn:hover {
+  background-color: #f87171;
+}
+
+.badge {
+  background-color: #e4d7d7;
+  color: white;             
+  border-radius: 12px;       
+  padding: 2px 8px;          
+  margin-left: 3px;          
+  font-size: 14px;          
+}
+
+.badge-secondary {
+  background-color: #6b7280;
+}
+
+/*Icon Styling */
+.wishlist-btn .IoIosHeartEmpty {
+  font-size: 20px;          
+}
+
 
 .nav-link:hover {
   color: #f87171;
