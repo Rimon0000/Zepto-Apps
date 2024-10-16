@@ -3,12 +3,14 @@
     border-radius: 8px;
     border: 1px solid transparent; 
     transition: transform 0.5s, border-color 0.5s;
+    position: relative;
 }
+
 
 .card:hover {
     border: 1px solid #334155;
     border-radius: 10px;
-    transform: scale(1.05);
+    transform: scale(1.01);
 }
 
 .image {
@@ -23,8 +25,20 @@
     transform: scale(1.05);
 }
 
+.book-id{
+    position: absolute;
+    right: 3%;
+    top: 3%;
+    font-weight: 700;
+    background-color: black;
+    color: white;
+    border-radius: 50%;
+    padding: 5px;
+    font-size: 12px;
+}
+
 .card-content{
-    padding: 10px;
+    padding: 10px 20px;
 }
 
 .card-title {
@@ -38,28 +52,53 @@
     opacity: 0.9; 
 }
 
-.category, .quantity {
-    margin: 0.75rem 0;
+.authors{
+    font-weight: 700;
+    padding-top: 8px;
+    padding-bottom: 10px;
 }
 
-.heart-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid #ccc; /* Add border styling */
-    border-radius: 50%; /* Make it a circle */
+.authors-content{
+    font-weight: 500;
 }
 
-.button {
+.genre-container{
+    margin-bottom: 50px;
+}
+
+.genre{
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.genre-list{
+    font-weight: 500;
+}
+
+
+.btn-container{
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+.details-button {
     background-color: #28a745; /* Green background */
     color: white;
     border: none;
     padding: 0.5rem 1rem;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
+    border-radius: 30px;
+    width: 90%;
+    font-weight: 700;
+    font-family: "Quicksand", sans-serif;
+    margin-bottom: 15px;
 }
 
-.button:hover {
-    background-color: #218838; /* Darker green on hover */
-    color: white; /* Maintain white text color */
+.details-button:hover {
+    background-color: #218838;
+    color: white; 
 }
