@@ -2,6 +2,8 @@ import { FaRedo, FaSearch } from "react-icons/fa";
 import "./Books.css"
 import { useEffect, useState } from "react";
 import BookCard from "./BookCard/BookCard";
+import Lottie from "lottie-react";
+import loadingAnimation from "../../assets/animation/loadingAnimation.json"
 
 const Books = () => {
     const [books, setBooks] = useState([])
@@ -86,12 +88,21 @@ const Books = () => {
                         </button>
                     </div>
             </div>
-            <div className="grid-container">
+            {
+              books?.results?.length ? (
+                <div className="grid-container">
                 {
                     books?.results?.map((book) => <BookCard key={book.id} book={book}></BookCard>)
                 }
             </div>
+            
+                ) : (
+              <div className="flex items-center justify-center">
+                <Lottie className="w-2/5" animationData={loadingAnimation} />
+              </div>
+            )}
         </div>
+
     );
 };
 

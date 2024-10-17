@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../layout/MainLayout";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import Home from "../pages/Home/Home";
+import BookDetails from "../pages/Books/BookDetails/BookDetails";
 
 const router = createBrowserRouter([
     {
@@ -13,6 +14,11 @@ const router = createBrowserRouter([
             path: "/",
             element: <Home/>
         },
+        {
+          path: "/books/:id",
+          element: <BookDetails/>,
+          loader: ({ params }) => fetch(`https://gutendex.com/books/${params.id}`),
+      },
       ]
     },
   ]);
