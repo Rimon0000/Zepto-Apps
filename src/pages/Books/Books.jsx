@@ -33,6 +33,7 @@ const Books = () => {
         fetchData();
     }, [currentPage, cardPerPage, filter, search]);
 
+    //get data count
     useEffect(() => {
         const getCount = async () => {
             try {
@@ -46,9 +47,10 @@ const Books = () => {
         getCount();
     }, []);
 
-    console.log(dataCount);
+    // console.log(dataCount);
 
     const numOfPages = Math.ceil(dataCount / cardPerPage);
+    // console.log(numOfPages);
     const pages = [...Array(numOfPages).keys()].map((ele) => ele + 1);
 
     // handle pagination
@@ -63,10 +65,12 @@ const Books = () => {
 
     // handle reset
     const handleReset = () => {
+      console.log("reset clicked");
         setFilter("");
         setSearch("");
         setSearchText("");
         setCurrentPage(1); // Reset to the first page
+        console.log("is it working?");
     };
 
     // handle search input change
@@ -81,9 +85,6 @@ const Books = () => {
         setCurrentPage(1); // Reset to the first page after search
     };
 
-    // Get unique subjects for the dropdown
-    const uniqueSubjects = [...new Set(books.flatMap((book) => book?.subjects))];
-
     return (
         <div className="container">
             <div className="container-header">
@@ -97,11 +98,14 @@ const Books = () => {
                 <div className="filter-wrapper">
                     <select onChange={handleFilterByGenre} name="category" className="category-select">
                         <option value="">All</option>
-                        {uniqueSubjects.map((subject, index) => (
-                            <option key={index} value={subject}>
-                                {subject}
-                            </option>
-                        ))}
+                          {books?.length > 0 &&
+                              books?.map((book, bookIndex) =>
+                                  book?.subjects?.map((subject, subjectIndex) => (
+                                      <option key={`${bookIndex}-${subjectIndex}`} value={subject}>
+                                          {subject}
+                                      </option>
+                                  ))
+                              )}
                     </select>
                 </div>
 
@@ -129,8 +133,8 @@ const Books = () => {
             </div>
 
             {loading ? (
-                <div className="flex items-center justify-center">
-                    <Lottie className="w-2/5" animationData={loadingAnimation} />
+                <div className="loading-animation">
+                    <Lottie className="animation" animationData={loadingAnimation} />
                 </div>
             ) : books?.length ? (
                 <div>
@@ -173,7 +177,7 @@ const Books = () => {
                 </div>
             ) : (
                 <div className="loading-animation">
-                    <Lottie className="" animationData={loadingAnimation} />
+                    <Lottie className="animation" animationData={loadingAnimation} />
                 </div>
             )}
         </div>
