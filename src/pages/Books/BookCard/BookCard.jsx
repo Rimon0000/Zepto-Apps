@@ -2,9 +2,7 @@
 import "./BookCard.css"
 
 const BookCard = ({book}) => {
-    console.log("from book card", book);
     const {id, title, authors, traslators, subjects, bookshelves, copyright, download_count, formats, languages, media_type} = book;
-    console.log(`formats?.image/jpeg`);
     return (
         <div className="card" data-aos="fade-up" data-aos-duration="400">
             <div className="image-container">
@@ -23,7 +21,7 @@ const BookCard = ({book}) => {
                 <div className="genre-container">
                     <p className="genre">
                         Genre: 
-                          {bookshelves.map((item, index) => (
+                          {subjects.map((item, index) => (
                             <li className="genre-list" key={index}>{item}</li>
                           ))}
                     </p>

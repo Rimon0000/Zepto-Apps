@@ -86,8 +86,14 @@
     font-weight: 700;
   }
 
+
   .subjects-list{
     margin-bottom: 4px;
+  }
+
+  .additional-info{
+    display: flex;
+    gap: 14px;
   }
 
   .download-title{

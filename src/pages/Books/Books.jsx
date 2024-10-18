@@ -1,108 +1,182 @@
-import { FaRedo, FaSearch } from "react-icons/fa";
-import "./Books.css"
+import { FaArrowAltCircleLeft, FaArrowAltCircleRight, FaRedo, FaSearch } from "react-icons/fa";
+import "./Books.css";
 import { useEffect, useState } from "react";
 import BookCard from "./BookCard/BookCard";
 import Lottie from "lottie-react";
-import loadingAnimation from "../../assets/animation/loadingAnimation.json"
+import loadingAnimation from "../../assets/animation/loadingAnimation.json";
 
 const Books = () => {
-    const [books, setBooks] = useState([])
+    const [books, setBooks] = useState([]);
+    const [filter, setFilter] = useState("");
+    const [search, setSearch] = useState("");
+    const [searchText, setSearchText] = useState("");
+    const [cardPerPage] = useState(6);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [dataCount, setDataCount] = useState(0);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
-          try {
-            const res = await fetch("https://gutendex.com/books");
-            const data = await res.json();
-            setBooks(data)
-          } catch (error) {
-            console.error("Error fetching data:", error);
-          }
+            setLoading(true); // Start loading
+            try {
+                const res = await fetch(
+                    `https://gutendex.com/books?page=${currentPage}&size=${cardPerPage}&filter=${filter}&search=${search}`
+                );
+                const data = await res.json();
+                setBooks(data?.results);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            } finally {
+                setLoading(false); 
+            }
         };
         fetchData();
-      }, [books]);
-      
+    }, [currentPage, cardPerPage, filter, search]);
 
-    //handle filter
-  const handleFilterByCategory = (e) => {
-    // dispatch(setFilter(e.target.value));
-  };
+    useEffect(() => {
+        const getCount = async () => {
+            try {
+                const res = await fetch("https://gutendex.com/books");
+                const data = await res.json();
+                setDataCount(data?.count);
+            } catch (error) {
+                console.error("Error fetching total count:", error);
+            }
+        };
+        getCount();
+    }, []);
 
-  //handle reset
-  const handleReset = () => {
-    // dispatch(resetFilterAndSearch());
-  };
+    console.log(dataCount);
 
-  //handle search
-  const handleSearch = (e) => {
-    // dispatch(setSearchText(e.target.value));
-  };
+    const numOfPages = Math.ceil(dataCount / cardPerPage);
+    const pages = [...Array(numOfPages).keys()].map((ele) => ele + 1);
 
-  // Apply search and filter
-//   const filteredSupplies = data?.data?.filter((item) => {
-//     // return (
-//     //   item.title.toLowerCase().includes(searchText.toLowerCase()) &&
-//     //   (filter ? item.category === filter : true)
-//     // );
-//   });
+    // handle pagination
+    const handlePagination = (value) => {
+        setCurrentPage(value);
+    };
+
+    // handle filter
+    const handleFilterByGenre = (e) => {
+        setFilter(e.target.value);
+    };
+
+    // handle reset
+    const handleReset = () => {
+        setFilter("");
+        setSearch("");
+        setSearchText("");
+        setCurrentPage(1); // Reset to the first page
+    };
+
+    // handle search input change
+    const handleSearchInputChange = (e) => {
+        setSearchText(e.target.value);
+    };
+
+    // handle search form submit
+    const handleSearch = (e) => {
+        e.preventDefault();
+        setSearch(searchText);
+        setCurrentPage(1); // Reset to the first page after search
+    };
+
+    // Get unique subjects for the dropdown
+    const uniqueSubjects = [...new Set(books.flatMap((book) => book?.subjects))];
 
     return (
         <div className="container">
-          <div className="container-header">
-            <h1 className="container-title">All Books</h1>
-            <p className="container-para">Explore our diverse collection of books, from captivating fiction to insightful non-fiction. Find your next great read and dive into a world of stories and ideas.</p>
+            <div className="container-header">
+                <h1 className="container-title">All Books</h1>
+                <p className="container-para">
+                    Explore our diverse collection of books, from captivating fiction to insightful non-fiction. Find your next great read and dive into a world of stories and ideas.
+                </p>
+            </div>
 
-          </div>
             <div className="filter-container">
-                    <div className="filter-wrapper">
-                        <select
-                            onChange={handleFilterByCategory}
-                            name="category"
-                            className="category-select"
+                <div className="filter-wrapper">
+                    <select onChange={handleFilterByGenre} name="category" className="category-select">
+                        <option value="">All</option>
+                        {uniqueSubjects.map((subject, index) => (
+                            <option key={index} value={subject}>
+                                {subject}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className="search-wrapper">
+                    <input
+                        onChange={handleSearchInputChange}
+                        value={searchText}
+                        className="search-input"
+                        type="text"
+                        name="search"
+                        placeholder="Enter Book Title"
+                        aria-label="Enter Book Title"
+                    />
+                    <button onClick={handleSearch} className="search-button">
+                        <FaSearch />
+                    </button>
+                </div>
+
+                <div className="reset-container">
+                    <button onClick={handleReset} className="reset-button">
+                        <FaRedo />
+                        <span>Reset</span>
+                    </button>
+                </div>
+            </div>
+
+            {loading ? (
+                <div className="flex items-center justify-center">
+                    <Lottie className="w-2/5" animationData={loadingAnimation} />
+                </div>
+            ) : books?.length ? (
+                <div>
+                    <div className="grid-container">
+                        {books.map((book) => (
+                            <BookCard key={book.id} book={book}></BookCard>
+                        ))}
+                    </div>
+                    {/* pagination */}
+                    <div className="pagination-container">
+                        {/* prev btn */}
+                        <button
+                            disabled={currentPage === 1}
+                            onClick={() => handlePagination(currentPage - 1)}
+                            className={`button ${currentPage === 1 ? "button--disabled" : ""}`}
                         >
-                            <option value="">All</option>
-                            <option value="Food">Food</option>
-                            <option value="Study Materials">Study Materials</option>
-                            <option value="Hygiene Products">Hygiene Products</option>
-                            <option value="Baby Essentials">Baby Essentials</option>
-                        </select>
-                    </div>
-            
-                    <div className="search-wrapper">
-                        <input
-                            onChange={handleSearch}
-                            className="search-input"
-                            type="text"
-                            name="search"
-                            placeholder="Enter Post Title"
-                            aria-label="Enter Post Title"
-                        />
-                        <button className="search-button">
-                            <FaSearch />
+                            <FaArrowAltCircleLeft />
+                        </button>
+
+                        {/* numbers */}
+                        {pages.slice(Math.max(currentPage - 2, 0), Math.min(currentPage + 3, numOfPages)).map((btnNumber) => (
+                            <button
+                                onClick={() => handlePagination(btnNumber)}
+                                key={btnNumber}
+                                className={`page-button ${currentPage === btnNumber ? "page-button--active" : ""}`}
+                            >
+                                {btnNumber}
+                            </button>
+                        ))}
+
+                        {/* next btn */}
+                        <button
+                            disabled={currentPage === numOfPages}
+                            onClick={() => handlePagination(currentPage + 1)}
+                            className={`button ${currentPage === numOfPages ? "button--disabled" : ""}`}
+                        >
+                            <FaArrowAltCircleRight />
                         </button>
                     </div>
-            
-                    <div className="reset-container">
-                        <button onClick={handleReset} className="reset-button">
-                            <FaRedo />
-                            <span>Reset</span>
-                        </button>
-                    </div>
-            </div>
-            {
-              books?.results?.length ? (
-                <div className="grid-container">
-                {
-                    books?.results?.map((book) => <BookCard key={book.id} book={book}></BookCard>)
-                }
-            </div>
-            
-                ) : (
-              <div className="flex items-center justify-center">
-                <Lottie className="w-2/5" animationData={loadingAnimation} />
-              </div>
+                </div>
+            ) : (
+                <div className="loading-animation">
+                    <Lottie className="" animationData={loadingAnimation} />
+                </div>
             )}
         </div>
-
     );
 };
 

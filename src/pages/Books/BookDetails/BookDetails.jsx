@@ -73,10 +73,12 @@ const BookDetails = () => {
                                 <li className="bookshelves-list" key={index}>{item}</li>
                               ))}
                         </p>
-                      <p><strong>Copyright:</strong> {copyright ? "Yes" : "No"}</p>
-                      <p><strong>Download Count:</strong> {download_count}</p>
-                      <p><strong>Languages:</strong> {languages.join(", ")}</p>
-                      <p><strong>Media Type:</strong> {media_type}</p>
+                      <p className="additional-info">
+                            <p><strong>Copyright:</strong> {copyright ? "Yes" : "No"}</p>
+                            <p><strong>Download Count:</strong> {download_count}</p>
+                            <p><strong>Languages:</strong> {languages.join(", ")}</p>
+                            <p><strong>Media Type:</strong> {media_type}</p>
+                      </p>
                     </div>
           
                     <div className="download-links">
