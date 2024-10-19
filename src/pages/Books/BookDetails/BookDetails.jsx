@@ -19,8 +19,7 @@ const BookDetails = () => {
     media_type,
   } = bookData;
 
-  const imageUrl =
-    formats["image/jpeg"] || formats["image/png"] || formats["image/jpg"];
+  const imageUrl = formats["image/jpeg"] || formats["image/png"] || formats["image/jpg"];
 
   return (
     <div className="details-container">

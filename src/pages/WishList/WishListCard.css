@@ -1,0 +1,105 @@
+.wishlist-card-container {
+    display: flex;
+    gap: 2rem;
+    background-color: #f1f5f9;
+    margin-bottom: 1rem; 
+    border-radius: 0.5rem; 
+    padding: 15px;
+}
+
+/* Image container */
+.wishlist-image-container {
+    width: 25%;
+}
+
+.wishlist-image {
+    width: 100%;
+    border-radius: 0.5rem;
+    height: 300px;
+}
+
+/* Text container */
+.text-container {
+    width: 75%; 
+}
+
+/* Styling for text elements */
+.bookID {
+    font-weight: 500;
+    color: #475569;
+}
+.title {
+    font-weight: 700;
+    color: #475569;
+    padding: 4px 0;
+}
+.authors {
+    font-size: 1rem; 
+    font-weight: 700;
+    border-bottom: 2px solid #475569;
+    padding-bottom: 0.5rem;
+}
+.authors-content {
+    color: #475569;
+    font-weight: 500;
+}
+.sub-container {
+    margin-top: 10px;
+    font-weight: 400;
+}
+.subjects-title {
+    padding-bottom: 5px;
+}
+.wish-btn {
+    display: flex;
+    justify-content: end;
+}
+.wishlist-details-button {
+    background-color: #28a745; 
+    color: white;
+    border: none;
+    padding: 0.7rem 2rem;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    border-radius: 30px;
+    font-weight: 700;
+    font-family: "Quicksand", sans-serif;
+    margin-top: 5px;
+}
+.wishlist-details-button:hover {
+    background-color: #218838;
+    color: white; 
+}
+
+/* Responsive styles */
+@media (max-width: 768px) { /* Medium devices */
+    .wishlist-card-container {
+        flex-direction: column;
+    }
+
+    .wishlist-image-container {
+        width: 100%; 
+    }
+
+    .text-container {
+        width: 100%; 
+    }
+
+    .wishlist-image {
+        height: 200px; 
+    }
+
+    .wish-btn {
+        justify-content: center; 
+    }
+}
+
+@media (max-width: 576px) { /* Small devices */
+    .wishlist-card-container {
+        padding: 10px;
+    }
+
+    .title {
+        font-size: 1.25rem; 
+    }
+}
