@@ -51,7 +51,7 @@ const Navbar = () => {
               alt="Logo"
             />
           </Link>
-          <Link to="/" className="navbar-title">Book Haven</Link>
+          <Link to="/" className="navbar-title">Book Heaven</Link>
         </div>
 
         <div className="navbar-menu-toggle" onClick={toggleMenu}>
