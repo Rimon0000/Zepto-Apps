@@ -7,6 +7,7 @@ import loadingAnimation from "../../assets/animation/loadingAnimation.json";
 
 const Books = () => {
     const [books, setBooks] = useState([]);
+    const [filteredBooks, setFilteredBooks] = useState([]);
     const [filter, setFilter] = useState("");
     const [search, setSearch] = useState("");
     const [searchText, setSearchText] = useState("");
@@ -20,10 +21,12 @@ const Books = () => {
             setLoading(true); // Start loading
             try {
                 const res = await fetch(
-                    `https://gutendex.com/books?page=${currentPage}&size=${cardPerPage}&filter=${filter}&search=${search}`
+                    `https://gutendex.com/books?page=${currentPage}&size=${cardPerPage}&search=${search}`
                 );
                 const data = await res.json();
                 setBooks(data?.results);
+                setFilteredBooks(data?.results); // Initially set filteredBooks to all books
+                setDataCount(data?.count);
             } catch (error) {
                 console.error("Error fetching data:", error);
             } finally {
@@ -31,53 +34,46 @@ const Books = () => {
             }
         };
         fetchData();
-    }, [currentPage, cardPerPage, filter, search]);
+    }, [currentPage, cardPerPage, search]);
 
-    //get data count
+    // Apply genre filtering client-side -- server side filter is not working
     useEffect(() => {
-        const getCount = async () => {
-            try {
-                const res = await fetch("https://gutendex.com/books");
-                const data = await res.json();
-                setDataCount(data?.count);
-            } catch (error) {
-                console.error("Error fetching total count:", error);
-            }
-        };
-        getCount();
-    }, []);
+        if (filter) {
+            const filtered = books?.filter(book => book?.subjects?.includes(filter));
+            setFilteredBooks(filtered); // Update filteredBooks based on selected filter
+        } else {
+            setFilteredBooks(books); // Reset filteredBooks when no filter is applied
+        }
+    }, [filter, books]);
 
-    // console.log(dataCount);
-
+    // Handle pagination
     const numOfPages = Math.ceil(dataCount / cardPerPage);
-    // console.log(numOfPages);
     const pages = [...Array(numOfPages).keys()].map((ele) => ele + 1);
 
-    // handle pagination
     const handlePagination = (value) => {
         setCurrentPage(value);
     };
 
-    // handle filter
+    // Handle genre filtering
     const handleFilterByGenre = (e) => {
-        setFilter(e.target.value);
+        const selectedFilter = e.target.value;
+        setFilter(selectedFilter);
     };
 
-    // handle reset
+    // Handle reset
     const handleReset = () => {
         setFilter("");
         setSearch("");
         setSearchText("");
         setCurrentPage(1); // Reset to the first page
-        console.log("is it working?");
     };
 
-    // handle search input change
+    // Handle search input change
     const handleSearchInputChange = (e) => {
         setSearchText(e.target.value);
     };
 
-    // handle search form submit
+    // Handle search form submit
     const handleSearch = () => {
         setSearch(searchText);
         setCurrentPage(1); // Reset to the first page after search
@@ -94,16 +90,16 @@ const Books = () => {
 
             <div className="filter-container">
                 <div className="filter-wrapper">
-                    <select onChange={handleFilterByGenre} name="category" className="category-select">
+                    <select value={filter} onChange={handleFilterByGenre} name="genre" className="category-select">
                         <option value="">All</option>
-                          {books?.length > 0 &&
-                              books?.map((book, bookIndex) =>
-                                  book?.subjects?.map((subject, subjectIndex) => (
-                                      <option key={`${bookIndex}-${subjectIndex}`} value={subject}>
-                                          {subject}
-                                      </option>
-                                  ))
-                              )}
+                            {filteredBooks?.length > 0 &&
+                                  filteredBooks?.map((book, bookIndex) =>
+                                      book?.subjects?.map((subject, subjectIndex) => (
+                                          <option key={`${bookIndex}-${subjectIndex}`} value={subject}>
+                                              {subject}
+                                          </option>
+                                      ))
+                                )}
                     </select>
                 </div>
 
@@ -134,10 +130,10 @@ const Books = () => {
                 <div className="loading-animation">
                     <Lottie className="animation" animationData={loadingAnimation} />
                 </div>
-            ) : books?.length ? (
+            ) : filteredBooks?.length ? (
                 <div>
                     <div className="grid-container">
-                        {books.map((book) => (
+                        {filteredBooks.map((book) => (
                             <BookCard key={book.id} book={book}></BookCard>
                         ))}
                     </div>

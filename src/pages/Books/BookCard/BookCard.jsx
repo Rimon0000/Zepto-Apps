@@ -21,7 +21,7 @@ const BookCard = ({book}) => {
                 <div className="genre-container">
                     <p className="genre">
                         Genre: 
-                          {subjects.map((item, index) => (
+                          {subjects?.map((item, index) => (
                             <li className="genre-list" key={index}>{item}</li>
                           ))}
                     </p>
