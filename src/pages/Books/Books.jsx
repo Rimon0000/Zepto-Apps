@@ -65,7 +65,6 @@ const Books = () => {
 
     // handle reset
     const handleReset = () => {
-      console.log("reset clicked");
         setFilter("");
         setSearch("");
         setSearchText("");
@@ -79,8 +78,7 @@ const Books = () => {
     };
 
     // handle search form submit
-    const handleSearch = (e) => {
-        e.preventDefault();
+    const handleSearch = () => {
         setSearch(searchText);
         setCurrentPage(1); // Reset to the first page after search
     };
