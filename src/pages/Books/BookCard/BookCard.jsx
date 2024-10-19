@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { IoIosHeartEmpty } from "react-icons/io";
 import "./BookCard.css"
 
 const BookCard = ({book}) => {
@@ -26,9 +27,17 @@ const BookCard = ({book}) => {
                           ))}
                     </p>
                 </div>
-                <a className="btn-container" href={`/books/${id}`}>
-                    <button className="details-button">View Detail</button>
-                </a>
+                <div className="lower-container">
+                    <div className="btn-container">
+                        <a className="" href={`/books/${id}`}>
+                            <button className="details-button">View Detail</button>
+                        </a>
+                    </div>
+                    <div className="icon-container">
+                        <button className='icon-button'>
+                        <IoIosHeartEmpty className='icon'></IoIosHeartEmpty></button>
+                    </div>
+                </div>
             </div>
         </div>
 

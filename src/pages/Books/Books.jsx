@@ -16,6 +16,7 @@ const Books = () => {
     const [dataCount, setDataCount] = useState(0);
     const [loading, setLoading] = useState(false);
 
+    //fetching data
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true); // Start loading
