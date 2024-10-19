@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Navbar.css"
 import { Link } from "react-router-dom";
 import { FaHeart } from "react-icons/fa6";
@@ -7,6 +7,27 @@ import { IoIosHeartEmpty } from "react-icons/io";
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [theme, setTheme] = useState("light");
+    const [wishlistCount, setWishlistCount] = useState(0);
+
+    // Load wishlist count from localStorage on initial render
+    useEffect(() => {
+      const savedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+      setWishlistCount(savedWishlist.length);
+    }, []);
+
+    // Listen for changes in localStorage and update wishlist count accordingly
+    useEffect(() => {
+      const handleStorageChange = () => {
+        const savedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+        setWishlistCount(savedWishlist.length);
+      };
+      // Add event listener for changes in localStorage
+      window.addEventListener("storage", handleStorageChange);
+      return () => {
+        // Cleanup event listener on unmount
+        window.removeEventListener("storage", handleStorageChange);
+      };
+    }, []);
   
     //theme
     const toggleTheme = () => {
@@ -42,11 +63,11 @@ const Navbar = () => {
             <Link className="nav-link" to="/">Home</Link>
           </li>
           <li>
-            <Link className="nav-link" to="/books">
+            <Link className="nav-link" to="/wishlist">
             <button className='wishlist-btn'> Wishlist Books
             <IoIosHeartEmpty className="IoIosHeartEmpty"></IoIosHeartEmpty>
               <div className='badge badge-secondary'>
-                  {/* +{cart?.length || 0} */}
+                  +{wishlistCount || 0}
                 </div>
             </button>
             </Link>

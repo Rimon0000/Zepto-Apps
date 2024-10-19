@@ -1,9 +1,12 @@
 /* eslint-disable react/prop-types */
 import { IoIosHeartEmpty } from "react-icons/io";
 import "./BookCard.css"
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 
-const BookCard = ({book}) => {
+const BookCard = ({book, toggleWishlist, wishlist}) => {
     const {id, title, authors, traslators, subjects, bookshelves, copyright, download_count, formats, languages, media_type} = book;
+
+
     return (
         <div className="card" data-aos="fade-up" data-aos-duration="400">
             <div className="image-container">
@@ -34,8 +37,13 @@ const BookCard = ({book}) => {
                         </a>
                     </div>
                     <div className="icon-container">
-                        <button className='icon-button'>
-                        <IoIosHeartEmpty className='icon'></IoIosHeartEmpty></button>
+                        <button onClick={() => toggleWishlist(book)} className='icon-button'>
+                            {wishlist.some((item) => item.id === book.id) ? (
+                              <FaHeart className='icon' color="red"/>
+                            ) : (
+                              <FaRegHeart className='icon' />
+                            )}
+                        </button>
                     </div>
                 </div>
             </div>
