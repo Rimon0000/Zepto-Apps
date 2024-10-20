@@ -71,6 +71,9 @@ button:focus-visible {
 html {
   font-family: "Quicksand", sans-serif;
 }
+body{
+  background-color: #F9FAFB; 
+}
 
 * {
   margin: 0;

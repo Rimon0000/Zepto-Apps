@@ -19,6 +19,12 @@
     padding-bottom: 60px;
     align-items: center;
     justify-content: center;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.filter-wrapper{
+    margin-right: 20px;
 }
 
 /* Responsive styles for medium screens and up */
