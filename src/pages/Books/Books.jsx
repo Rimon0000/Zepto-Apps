@@ -4,8 +4,11 @@ import { useEffect, useState } from "react";
 import BookCard from "./BookCard/BookCard";
 import Lottie from "lottie-react";
 import loadingAnimation from "../../assets/animation/loadingAnimation.json";
+import { useWishlist } from "../Providers/WishListProvider";
 
 const Books = () => {
+    const { toggleWishlist, wishlist } = useWishlist();
+
     const [books, setBooks] = useState([]);
     const [filteredBooks, setFilteredBooks] = useState([]);
     const [filter, setFilter] = useState("");
@@ -15,8 +18,6 @@ const Books = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [dataCount, setDataCount] = useState(0);
     const [loading, setLoading] = useState(false);
-
-    const [wishlist, setWishlist] = useState([]);
 
     //fetching data
     useEffect(() => {
@@ -48,19 +49,6 @@ const Books = () => {
             setFilteredBooks(books); // Reset filteredBooks when no filter is applied
         }
     }, [filter, books]);
-
-  // Fetch wishlist from localStorage when the component mounts
-  useEffect(() => {
-    const savedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-    setWishlist(savedWishlist);
-  }, []);
-
-  // Whenever wishlist changes, update localStorage
-  useEffect(() => {
-    if (wishlist.length > 0) {
-      localStorage.setItem("wishlist", JSON.stringify(wishlist));
-    }
-  }, [wishlist]);
 
     // Handle pagination
     const numOfPages = Math.ceil(dataCount / cardPerPage);
@@ -94,19 +82,6 @@ const Books = () => {
         setSearch(searchText);
         setCurrentPage(1); // Reset to the first page after search
     };
-
-
-    //wish list
-    // Toggle wishlist status (save/remove book object in/from localStorage)
-    const toggleWishlist = (book) => {
-        const isBookInWishlist = wishlist.some((item) => item.id === book.id);
-    
-        if (isBookInWishlist) {
-          setWishlist(wishlist.filter((item) => item.id !== book.id));
-        } else {
-          setWishlist([...wishlist, book]);
-        }
-      };
 
     return (
         <div className="container">

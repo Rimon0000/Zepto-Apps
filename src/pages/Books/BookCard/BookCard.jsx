@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { IoIosHeartEmpty } from "react-icons/io";
+// import { IoIosHeartEmpty } from "react-icons/io";
 import "./BookCard.css"
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 
@@ -38,7 +38,7 @@ const BookCard = ({book, toggleWishlist, wishlist}) => {
                     </div>
                     <div className="icon-container">
                         <button onClick={() => toggleWishlist(book)} className='icon-button'>
-                            {wishlist.some((item) => item.id === book.id) ? (
+                            {wishlist?.some((item) => item.id === book.id) ? (
                               <FaHeart className='icon' color="red"/>
                             ) : (
                               <FaRegHeart className='icon' />
